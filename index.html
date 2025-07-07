@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Respuesta Libre STEAM</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; background: #f9f9f9; }
+    .container { max-width: 600px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 20px; }
+    textarea { width: 100%; height: 200px; padding: 10px; font-size: 1em; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical; }
+    .controls { margin-top: 10px; display: flex; gap: 10px; justify-content: flex-end; }
+    .controls button { padding: 8px 12px; font-size: 1em; border: none; border-radius: 4px; cursor: pointer; }
+    .controls .share-btn { background: #1976d2; color: #fff; }
+    .controls .copy-btn { background: #4caf50; color: #fff; }
+    .warning { color: #e53935; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Comparte tu Reflexión</h1>
+    <textarea id="response" maxlength="2000" placeholder="Escribe tu respuesta aquí (máx. 2000 caracteres)"></textarea>
+    <div><span id="charCount">0</span>/2000 caracteres</div>
+    <div class="controls">
+      <button class="copy-btn" id="copyBtn">Copiar al portapapeles</button>
+      <button class="share-btn" id="shareBtn">Compartir</button>
+    </div>
+    <p class="warning" id="warning"></p>
+  </div>
+
+  <script>
+    const textarea = document.getElementById('response');
+    const charCount = document.getElementById('charCount');
+    const warning = document.getElementById('warning');
+    textarea.addEventListener('input', () => {
+      charCount.textContent = textarea.value.length;
+      warning.textContent = textarea.value.length > 2000 ? 'Has excedido el límite de caracteres.' : '';
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', () => {
+      textarea.select();
+      document.execCommand('copy');
+      alert('Texto copiado al portapapeles');
+    });
+
+    document.getElementById('shareBtn').addEventListener('click', async () => {
+      const text = textarea.value.trim();
+      if (!text) {
+        alert('Escribe algo para compartir.');
+        return;
+      }
+      const shareText = encodeURIComponent(text);
+      const shareUrl = window.location.href;
+      // Intentar Web Share API
+      if (navigator.share) {
+        try {
+          await navigator.share({ text });
+        } catch (err) {
+          console.error('Error al compartir:', err);
+        }
+      } else {
+        // Fallback: abrir opciones de WhatsApp y Telegram
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${shareText}`;
+        const telegramUrl = `https://t.me/share/url?text=${shareText}`;
+        const popup = window.open('', 'shareWindow', 'width=600,height=400');
+        popup.document.write(`
+          <p>Compartir en:</p>
+          <p><a href="${whatsappUrl}" target="_blank">WhatsApp</a></p>
+          <p><a href="${telegramUrl}" target="_blank">Telegram</a></p>
+        `);
+      }
+    });
+  </script>
+</body>
+</html>
