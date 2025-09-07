@@ -1,0 +1,42 @@
+[
+  {
+    "id": "chaos",
+    "nombre_griego": "Chaos",
+    "nombre_romano": null,
+    "padres": [],
+    "categoria": "primordial",
+    "descripcion": "La nada primordial, origen del cosmos."
+  },
+  {
+    "id": "gaia",
+    "nombre_griego": "Gaia",
+    "nombre_romano": "Tellus",
+    "padres": ["chaos"],
+    "categoria": "titán",
+    "descripcion": "Diosa primordial de la Tierra."
+  },
+  {
+    "id": "uranus",
+    "nombre_griego": "Uranus",
+    "nombre_romano": "Caelus",
+    "padres": ["gaia"],
+    "categoria": "titán",
+    "descripcion": "Dios primordial del cielo."
+  },
+  {
+    "id": "cronus",
+    "nombre_griego": "Cronos",
+    "nombre_romano": "Saturnus",
+    "padres": ["uranus", "gaia"],
+    "categoria": "titán",
+    "descripcion": "Líder de los Titanes, derrocó a Urano."
+  },
+  {
+    "id": "zeus",
+    "nombre_griego": "Zeus",
+    "nombre_romano": "Júpiter",
+    "padres": ["cronus"],
+    "categoria": "olímpico",
+    "descripcion": "Rey de los dioses olímpicos."
+  }
+]
